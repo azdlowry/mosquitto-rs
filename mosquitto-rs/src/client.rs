@@ -208,6 +208,7 @@ impl Callbacks for Handler {
     }
 
     fn on_disconnect(&self, client: &mut Mosq, reason: ReasonCode) {
+        self.mids.lock().unwrap().clear();
         self.dispatch_event(client, Event::Disconnected(reason));
         log::trace!("client disconnected with reason={reason}");
         if !reason.is_unexpected_disconnect() {
