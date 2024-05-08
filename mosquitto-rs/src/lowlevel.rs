@@ -680,7 +680,7 @@ impl<T: Callbacks> CallbackWrapper<T> {
     ) {
         let cb = Self::resolve_self(cb);
         with_transient_client(m, |client| {
-            let granted_qos = std::slice::from_raw_parts(granted_qos, qos_count as usize);
+            let granted_qos = from_raw_parts(granted_qos, qos_count as usize);
             let granted_qos: Vec<QoS> = granted_qos.iter().map(QoS::from_int).collect();
             cb.cb.on_subscribe(client, mid, &granted_qos);
         });
@@ -700,11 +700,24 @@ impl<T: Callbacks> CallbackWrapper<T> {
                 client,
                 msg.mid,
                 topic,
-                std::slice::from_raw_parts(msg.payload as *const u8, msg.payloadlen as usize),
+                from_raw_parts(msg.payload as *const u8, msg.payloadlen as usize),
                 QoS::from_int(&msg.qos),
                 msg.retain,
             );
         });
+    }
+}
+
+/// Wrapper around std::slice::from_raw_parts that allows for ptr to be
+/// null. In the null ptr case, an empty slice is returned.
+/// This is necessary because it is common for freetype to encode
+/// empty arrays in that way, and rust 1.78 will panic if a null
+/// ptr is passed in.
+unsafe fn from_raw_parts<'a, T>(ptr: *const T, size: usize) -> &'a [T] {
+    if ptr.is_null() {
+        &[]
+    } else {
+        std::slice::from_raw_parts(ptr, size)
     }
 }
 
