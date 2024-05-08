@@ -710,7 +710,7 @@ impl<T: Callbacks> CallbackWrapper<T> {
 
 /// Wrapper around std::slice::from_raw_parts that allows for ptr to be
 /// null. In the null ptr case, an empty slice is returned.
-/// This is necessary because it is common for freetype to encode
+/// This is necessary because it is common for mosquitto to encode
 /// empty arrays in that way, and rust 1.78 will panic if a null
 /// ptr is passed in.
 unsafe fn from_raw_parts<'a, T>(ptr: *const T, size: usize) -> &'a [T] {
