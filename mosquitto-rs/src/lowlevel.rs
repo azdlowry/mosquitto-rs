@@ -501,7 +501,7 @@ impl<CB: Callbacks + Send + Sync> Mosq<CB> {
             sys::mosquitto_tls_insecure_set(
                 self.m,
                 value,
-            );
+            )
         };
         Error::result(err, ())
     }
