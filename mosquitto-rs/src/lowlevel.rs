@@ -493,7 +493,7 @@ impl<CB: Callbacks + Send + Sync> Mosq<CB> {
     /// If `value`	if set to false, the default, certificate hostname checking is
     /// performed.  If set to true, no hostname checking is performed and the
     /// connection is insecure.
-    pub fn mosquitto_tls_insecure_set(
+    pub fn set_tls_insecure(
         &self,
         value: bool
     ) -> Result<(), Error> {
