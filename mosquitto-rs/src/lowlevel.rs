@@ -489,20 +489,12 @@ impl<CB: Callbacks + Send + Sync> Mosq<CB> {
     /// party to impersonate your server through DNS spoofing, for example.  Do
     /// not use this function in a real system.  Setting value to true makes the
     /// connection encryption pointless.  Must be called before mosquitto_connect.
-    /// 
+    ///
     /// If `value`	if set to false, the default, certificate hostname checking is
     /// performed.  If set to true, no hostname checking is performed and the
     /// connection is insecure.
-    pub fn set_tls_insecure(
-        &self,
-        value: bool
-    ) -> Result<(), Error> {
-        let err = unsafe {
-            sys::mosquitto_tls_insecure_set(
-                self.m,
-                value,
-            )
-        };
+    pub fn set_tls_insecure(&self, value: bool) -> Result<(), Error> {
+        let err = unsafe { sys::mosquitto_tls_insecure_set(self.m, value) };
         Error::result(err, ())
     }
 

@@ -513,9 +513,7 @@ impl Client {
     /// party to impersonate your server through DNS spoofing, for example.  Do
     /// not use this function in a real system.  Disabling this makes the
     /// connection encryption pointless.  Must be called before connect.
-    pub fn disable_tls_hostname_validation(
-        &self,
-    ) -> Result<(), Error> {
+    pub fn disable_tls_hostname_validation(&self) -> Result<(), Error> {
         self.mosq.set_tls_insecure(true)
     }
 
@@ -526,9 +524,7 @@ impl Client {
     /// testing, but makes it possible for a malicious third party to
     /// impersonate your server through DNS spoofing, for example. Must be
     /// called before connect.
-    pub fn enable_tls_hostname_validation(
-        &self,
-    ) -> Result<(), Error> {
+    pub fn enable_tls_hostname_validation(&self) -> Result<(), Error> {
         self.mosq.set_tls_insecure(false)
     }
 
